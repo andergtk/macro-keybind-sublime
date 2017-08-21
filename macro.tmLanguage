@@ -5,7 +5,7 @@
 	<key>fileTypes</key>
 	<array/>
 	<key>name</key>
-	<string>Macro / Keybind Mod</string>
+	<string>Macro Keybind Mod</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -72,7 +72,7 @@
 		<key>illegal</key>
 		<dict>
 			<key>match</key>
-			<string>[^\s}]</string>
+			<string>[\S}]</string>
 			<key>name</key>
 			<string>invalid.illegal.macro</string>
 		</dict>
@@ -97,7 +97,7 @@
 		<key>keys</key>
 		<dict>
 			<key>match</key>
-			<string>(?i)\bkey[\w]+</string>
+			<string>(?i)\bkey_[\w]+\b</string>
 			<key>name</key>
 			<string>constant.language.macro</string>
 		</dict>
@@ -194,7 +194,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?i)\b([0-9]+(t|ms)?)\W</string>
+			<string>(?i)\b([0-9]+(t|ms)?)\b</string>
 		</dict>
 		<key>string</key>
 		<dict>

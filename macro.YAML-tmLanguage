@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: Macro / Keybind Mod
+name: Macro Keybind Mod
 scopeName: source.macro
 fileTypes: []
 uuid: b2fafee2-d90b-491c-b931-e3d388fc80f3
@@ -27,7 +27,7 @@ repository:
     match: //.*
 
   numbers-and-time:
-    match: (?i)\b([0-9]+(t|ms)?)\W
+    match: (?i)\b([0-9]+(t|ms)?)\b
     captures:
       '1': {name: constant.numeric.macro}
 
@@ -47,7 +47,7 @@ repository:
 
   keys:
     name: constant.language.macro
-    match: (?i)\bkey[\w]+
+    match: (?i)\bkey_[\w]+\b
 
   directions:
     name: constant.language.macro
@@ -101,6 +101,6 @@ repository:
 
   illegal:
     name: invalid.illegal.macro
-    match: '[^\s}]'
+    match: '[\S}]'
     # match: '[^\s]'
 ...
