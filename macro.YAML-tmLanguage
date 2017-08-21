@@ -1,0 +1,106 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Macro / Keybind Mod
+scopeName: source.macro
+fileTypes: []
+uuid: b2fafee2-d90b-491c-b931-e3d388fc80f3
+
+patterns:
+- include: '#comment'
+- include: '#numbers-and-time'
+- include: '#string'
+- include: '#keys'
+- include: '#directions'
+- include: '#mod-variable'
+- include: '#user-variable'
+- include: '#user-variable-use'
+- include: '#keywords'
+- include: '#not-script'
+- include: '#illegal-variable-use'
+#- include: '#illegal'
+
+#######################################
+
+repository:
+  comment:
+    name: comment.line.double-slash.macro
+    match: //.*
+
+  numbers-and-time:
+    match: (?i)\b([0-9]+(t|ms)?)\W
+    captures:
+      '1': {name: constant.numeric.macro}
+
+  string:
+    name: string.quoted.macro
+    begin: ("|')
+    end: ("|')
+    patterns:
+    - include: '#mod-variable'
+    - include: '#user-variable-use'
+    - include: '#illegal-variable-use'
+    #- include: '#illegal'
+    
+    # Text formatting (&b, &c, &l, etc)
+    - name: markup.heading.macro
+      match: (?i)(&[a-z0-9])(?<!%)
+
+  keys:
+    name: constant.language.macro
+    match: (?i)\bkey[\w]+
+
+  directions:
+    name: constant.language.macro
+    match: \b(NORTH|SOUTH|EAST|WEST)\b
+
+  mod-variable:
+    name: constant.language.macro
+    match: '%[A-Z]+%'
+
+  user-variable:
+    name: variable.other.macro
+    match: '(@|@?(?:&|#))[\w]+'
+    captures:
+      '1': {name: storage.type.macro}
+
+  user-variable-use:
+    name: storage.type.macro
+    match: '%(@|@?(?:&|#))[\w]+%'
+
+  keywords:
+    begin: (?i)\b([a-z]+)\(?
+    beginCaptures:
+      '1': {name: keyword.other.macro}
+    end: '\)?;'
+    patterns:
+    - include: '#numbers-and-time'
+    - include: '#string'
+    - include: '#keys'
+    - include: '#directions'
+    - include: '#mod-variable'
+    - include: '#user-variable'
+    - include: '#user-variable-use'
+    - include: '#illegal-variable-use'
+    #- include: '#illegal'
+
+  not-script:
+    contentName: text.macro
+    begin: (\}\$\$)
+    beginCaptures:
+      '1': {name: punctuation.section.block.begin.macro}
+    end: (\$\$\{)
+    endCaptures:
+      '1': {name: punctuation.section.block.end.macro}
+
+  illegal-variable-use:
+    patterns:
+    - name: invalid.illegal.macro
+      match: '%(@|@?(?:&|#))[\w]+(?!%)'
+    - name: invalid.illegal.macro
+      match: (?<!%)(@|@?(?:&|#))[\w]+%(?!(@|@?(?:&|#)))
+
+  illegal:
+    name: invalid.illegal.macro
+    match: '[^\s}]'
+    # match: '[^\s]'
+...
