@@ -7,51 +7,126 @@ uuid: b2fafee2-d90b-491c-b931-e3d388fc80f3
 
 patterns:
 - include: '#comment'
-- include: '#numbers-and-time'
-- include: '#string'
-- include: '#keys'
-- include: '#directions'
-- include: '#mod-variable'
-- include: '#user-variable'
-- include: '#user-variable-use'
 - include: '#keywords'
-- include: '#not-script'
-- include: '#illegal-variable-use'
-#- include: '#illegal'
+- include: '#expressions'
 
 #######################################
 
 repository:
-  comment:
-    name: comment.line.double-slash.macro
-    match: //.*
+  expressions:
+    patterns:
+    - include: '#number'
+    - include: '#time'
+    - include: '#constant'
+    - include: '#string'
+    - include: '#mod-variable'
+    - include: '#user-variable'
+    - include: '#user-variable-usage'
+    - include: '#illegal-variable-usage'
+    - include: '#flags'
+    - include: '#script'
+    - include: '#operators'
+    - include: '#punctuation'
+    - include: '#round-brackets'
+    - include: '#illegal'
 
-  numbers-and-time:
-    match: (?i)\b([0-9]+(t|ms)?)\b
+  comment:
+    patterns:
+    - name: comment.line.double-slash.macro
+      match: //.*
+
+  round-brackets:
+    patterns:
+    - name: meta.group.braces.round.macro
+      begin: \(
+      beginCaptures:
+        '0': {name: meta.brace.round.begin.macro}
+      end: \)
+      endCaptures:
+        '0': {name: meta.brace.round.end.macro}
+      patterns:
+      - include: '#expressions'
+
+  punctuation:
+    patterns:
+    - name: punctuation.terminator.macro
+      match: ;
+
+    - name: meta.delimiter.comma.macro
+      match: ','
+
+  operators:
+    patterns:
+    - name: keyword.operator.logical.macro
+      match: '!(?!=)|&&|\|\|'
+
+    - name: keyword.operator.assignment.macro
+      match: =(?!=)
+
+    - name: keyword.operator.relational.macro
+      match: <=|>=|<|>
+
+    - name: keyword.operator.comparison.macro
+      match: ==|!=
+
+    - name: keyword.operator.arithmetic.macro
+      match: /|\*|\+|-|%(?![@&#]|[A-Z]+%)
+
+  number:
+    match: \b([0-9]+)\b
     captures:
       '1': {name: constant.numeric.macro}
 
-  string:
-    name: string.quoted.macro
-    begin: ("|')
-    end: ("|')
+  time:
+    match: (?i)\b([0-9]+(?:t|ms)?)\b
+    captures:
+      '1': {name: constant.numeric.macro}
+
+  constant:
     patterns:
-    - include: '#mod-variable'
-    - include: '#user-variable-use'
-    - include: '#illegal-variable-use'
-    #- include: '#illegal'
-    
-    # Text formatting (&b, &c, &l, etc)
-    - name: markup.heading.macro
-      match: (?i)(&[a-z0-9])(?<!%)
+    - match: (?i)\b(true|false|l|r)\b
+      captures:
+        '1': {name: constant.language.macro}
 
-  keys:
-    name: constant.language.macro
-    match: (?i)\bkey_[\w]+\b
+      # Keys (KEY_M, KEY_O, KEY_D, etc) and others
+    - match: (?i)\b(?:key_[\w]+|char_none|keyboard_size)\b
+      name: constant.character.macro
 
-  directions:
-    name: constant.language.macro
-    match: \b(NORTH|SOUTH|EAST|WEST)\b
+      # Directions
+    - match: (?i)\b(north|south|east|west)\b
+      name: constant.language.macro
+
+      # More keys and GUIs
+    - match: (?i)\b(inventory|drop|chat|attack|use|pick|menu|options|video|
+        controls|macrobind|macroconfig)\b
+      name: constant.language.macro
+
+      # Moving
+    - match: (?i)\b(forward|back|left|right|jump|sneak)\b
+      name: constant.language.macro
+
+      # Anothers
+    - match: (?i)\b(return)\b
+      name: constant.language.macro
+
+  string:
+    patterns:
+    - contentName: string.quoted.macro
+      begin: ("|')
+      beginCaptures:
+        '1': {name: punctuation.definition.string.begin.macro}
+      end: (\1)
+      endCaptures:
+        '1': {name: punctuation.definition.string.end.macro}
+      patterns:
+      - include: '#script'
+      - include: '#mod-variable'
+      - include: '#user-variable-usage'
+      - include: '#illegal-variable-usage'
+
+      # Text formatting (&b, &c, &l, etc)
+      - name: markup.heading.macro
+        match: (?i)(\&[a-z\d])
 
   mod-variable:
     name: constant.language.macro
@@ -59,48 +134,58 @@ repository:
 
   user-variable:
     name: variable.other.macro
-    match: '(@|@?(?:&|#))[\w]+'
+    match: (@|@?(?:[&#]))[\w]+
     captures:
       '1': {name: storage.type.macro}
 
-  user-variable-use:
+  user-variable-usage:
     name: storage.type.macro
-    match: '%(@|@?(?:&|#))[\w]+%'
+    match: '%(@|@?(?:[&#]))[\w]+%'
+
+  flags:
+    # Any word character not preceded by parentheses or semicolons, to not
+    # confund with keywords
+    match: '\b\w+(?!\(|\;)\b'
+    name: variable.other.macro
 
   keywords:
-    begin: (?i)\b([a-z]+)\(?
+    begin: (?i)\b(WHILE|WALKTO|WAIT|VOLUME|UNTIL|UNSPRINT|UNSET|UNIMPORT|TYPE|TOGGLEKEY|TOGGLE|TIME|TEXTUREPACK|STRIP|STOREOVER|STORE|STOP|SPRINT|SLOTCLICK|SLOT|SHOWGUI|SETSLOTITEM|SETRES|SETLABEL|SET|SENSITIVITY|RESPAWN|REPLACE|RANDOM|PUT|PUSH|PROMPT|PRESS|POP|PLAYSOUND|PLACESIGN|PICK|NEXT|MUSIC|MATCH|LOOP|LOOKS|LOOK|LOGTO|LOG|KEYUP|KEYDOWN|KEY|INVENTORYUP|INVENTORYDOWN|INDEXOF|INC|IMPORT|IIF|IFMATCHES|IFENDSWITH|IFCONTAINS|IFBEGINSWITH|IF|GUI|GETSLOTITEM|GETSLOT|GETITEMINFO|GETIDREL|GETID|GAMMA|FOV|FOREACH|FOR|FOG|EXEC|ENDIF|ELSEIF|ELSE|ECHO|DO|DISCONNECT|DEC|CRAFTANDWAIT|CRAFT|CONFIG|CLEARCHAT|CHATWIDTH|CHATVISIBLE|CHATSCALE|CHATOPACITY|CHATHEIGHTFOCUSED|CHATHEIGHT|BREAK|BINDGUI|BIND|ASSIGN|ARRAYSIZE|ACHIEVEMENTGET)
     beginCaptures:
       '1': {name: keyword.other.macro}
-    end: '\)?;'
+    end: '[;\n]'
     patterns:
-    - include: '#numbers-and-time'
-    - include: '#string'
-    - include: '#keys'
-    - include: '#directions'
-    - include: '#mod-variable'
-    - include: '#user-variable'
-    - include: '#user-variable-use'
-    - include: '#illegal-variable-use'
-    #- include: '#illegal'
+    - begin: \(
+      end: \)
+      patterns:
+      - include: '#expressions'
 
-  not-script:
-    contentName: text.macro
-    begin: (\}\$\$)
-    beginCaptures:
-      '1': {name: punctuation.section.block.begin.macro}
-    end: (\$\$\{)
-    endCaptures:
-      '1': {name: punctuation.section.block.end.macro}
+    - match: .
+      name: invalid.illegal.macro
 
-  illegal-variable-use:
+  script:
+    patterns:
+    - contentName: text.macro
+      begin: \}\$\$
+      beginCaptures:
+        '0': {name: markup.raw.block.begin.macro}
+      end: \$\$\{
+      endCaptures:
+        '0': {name: markup.raw.block.end.macro}
+
+    - name: markup.raw.block.macro
+      match: \$\$\{|\}\$\$
+
+    - name: variable.function.macro
+      match: (?i)\$\$(\?|\d|[a-z]{1,2}|\w+\:\w+|\[\w+\]|<.+?\.txt>)
+
+  illegal-variable-usage:
     patterns:
     - name: invalid.illegal.macro
-      match: '%(@|@?(?:&|#))[\w]+(?!%)'
+      match: '%(@|@?(?:[&#]))[\w]+(?!%)'
     - name: invalid.illegal.macro
-      match: (?<!%)(@|@?(?:&|#))[\w]+%(?!(@|@?(?:&|#)))
+      match: (?<!%)(@|@?(?:[&#]))[\w]+%(?!(@|@?(?:[&#])))
 
   illegal:
     name: invalid.illegal.macro
-    match: '[\S}]'
-    # match: '[^\s]'
+    match: '[^\s]'
 ...

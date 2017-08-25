@@ -14,124 +14,94 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#numbers-and-time</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#string</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#keys</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#directions</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#mod-variable</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#user-variable</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#user-variable-use</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>#keywords</string>
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#not-script</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#illegal-variable-use</string>
+			<string>#expressions</string>
 		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
 		<key>comment</key>
 		<dict>
-			<key>match</key>
-			<string>//.*</string>
-			<key>name</key>
-			<string>comment.line.double-slash.macro</string>
-		</dict>
-		<key>directions</key>
-		<dict>
-			<key>match</key>
-			<string>\b(NORTH|SOUTH|EAST|WEST)\b</string>
-			<key>name</key>
-			<string>constant.language.macro</string>
-		</dict>
-		<key>illegal</key>
-		<dict>
-			<key>match</key>
-			<string>[\S}]</string>
-			<key>name</key>
-			<string>invalid.illegal.macro</string>
-		</dict>
-		<key>illegal-variable-use</key>
-		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>match</key>
-					<string>%(@|@?(?:&amp;|#))[\w]+(?!%)</string>
+					<string>//.*</string>
 					<key>name</key>
-					<string>invalid.illegal.macro</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!%)(@|@?(?:&amp;|#))[\w]+%(?!(@|@?(?:&amp;|#)))</string>
-					<key>name</key>
-					<string>invalid.illegal.macro</string>
+					<string>comment.line.double-slash.macro</string>
 				</dict>
 			</array>
 		</dict>
-		<key>keys</key>
+		<key>constant</key>
 		<dict>
-			<key>match</key>
-			<string>(?i)\bkey_[\w]+\b</string>
-			<key>name</key>
-			<string>constant.language.macro</string>
-		</dict>
-		<key>keywords</key>
-		<dict>
-			<key>begin</key>
-			<string>(?i)\b([a-z]+)\(?</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
+			<key>patterns</key>
+			<array>
 				<dict>
-					<key>name</key>
-					<string>keyword.other.macro</string>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language.macro</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)\b(true|false|l|r)\b</string>
 				</dict>
-			</dict>
-			<key>end</key>
-			<string>\)?;</string>
+				<dict>
+					<key>match</key>
+					<string>(?i)\b(?:key_[\w]+|char_none|keyboard_size)\b</string>
+					<key>name</key>
+					<string>constant.character.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?i)\b(north|south|east|west)\b</string>
+					<key>name</key>
+					<string>constant.language.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?i)\b(inventory|drop|chat|attack|use|pick|menu|options|video| controls|macrobind|macroconfig)\b</string>
+					<key>name</key>
+					<string>constant.language.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?i)\b(forward|back|left|right|jump|sneak)\b</string>
+					<key>name</key>
+					<string>constant.language.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?i)\b(return)\b</string>
+					<key>name</key>
+					<string>constant.language.macro</string>
+				</dict>
+			</array>
+		</dict>
+		<key>expressions</key>
+		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#numbers-and-time</string>
+					<string>#number</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#time</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#constant</string>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>#string</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#keys</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#directions</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -143,11 +113,104 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#user-variable-use</string>
+					<string>#user-variable-usage</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#illegal-variable-use</string>
+					<string>#illegal-variable-usage</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#flags</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#script</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#operators</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#punctuation</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#round-brackets</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#illegal</string>
+				</dict>
+			</array>
+		</dict>
+		<key>flags</key>
+		<dict>
+			<key>match</key>
+			<string>\b\w+(?!\(|\;)\b</string>
+			<key>name</key>
+			<string>variable.other.macro</string>
+		</dict>
+		<key>illegal</key>
+		<dict>
+			<key>match</key>
+			<string>[^\s]</string>
+			<key>name</key>
+			<string>invalid.illegal.macro</string>
+		</dict>
+		<key>illegal-variable-usage</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>%(@|@?(?:[&amp;#]))[\w]+(?!%)</string>
+					<key>name</key>
+					<string>invalid.illegal.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!%)(@|@?(?:[&amp;#]))[\w]+%(?!(@|@?(?:[&amp;#])))</string>
+					<key>name</key>
+					<string>invalid.illegal.macro</string>
+				</dict>
+			</array>
+		</dict>
+		<key>keywords</key>
+		<dict>
+			<key>begin</key>
+			<string>(?i)\b(WHILE|WALKTO|WAIT|VOLUME|UNTIL|UNSPRINT|UNSET|UNIMPORT|TYPE|TOGGLEKEY|TOGGLE|TIME|TEXTUREPACK|STRIP|STOREOVER|STORE|STOP|SPRINT|SLOTCLICK|SLOT|SHOWGUI|SETSLOTITEM|SETRES|SETLABEL|SET|SENSITIVITY|RESPAWN|REPLACE|RANDOM|PUT|PUSH|PROMPT|PRESS|POP|PLAYSOUND|PLACESIGN|PICK|NEXT|MUSIC|MATCH|LOOP|LOOKS|LOOK|LOGTO|LOG|KEYUP|KEYDOWN|KEY|INVENTORYUP|INVENTORYDOWN|INDEXOF|INC|IMPORT|IIF|IFMATCHES|IFENDSWITH|IFCONTAINS|IFBEGINSWITH|IF|GUI|GETSLOTITEM|GETSLOT|GETITEMINFO|GETIDREL|GETID|GAMMA|FOV|FOREACH|FOR|FOG|EXEC|ENDIF|ELSEIF|ELSE|ECHO|DO|DISCONNECT|DEC|CRAFTANDWAIT|CRAFT|CONFIG|CLEARCHAT|CHATWIDTH|CHATVISIBLE|CHATSCALE|CHATOPACITY|CHATHEIGHTFOCUSED|CHATHEIGHT|BREAK|BINDGUI|BIND|ASSIGN|ARRAYSIZE|ACHIEVEMENTGET)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.macro</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>[;\n]</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\(</string>
+					<key>end</key>
+					<string>\)</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#expressions</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>.</string>
+					<key>name</key>
+					<string>invalid.illegal.macro</string>
 				</dict>
 			</array>
 		</dict>
@@ -158,32 +221,7 @@
 			<key>name</key>
 			<string>constant.language.macro</string>
 		</dict>
-		<key>not-script</key>
-		<dict>
-			<key>begin</key>
-			<string>(\}\$\$)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.section.block.begin.macro</string>
-				</dict>
-			</dict>
-			<key>contentName</key>
-			<string>text.macro</string>
-			<key>end</key>
-			<string>(\$\$\{)</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.section.block.end.macro</string>
-				</dict>
-			</dict>
-		</dict>
-		<key>numbers-and-time</key>
+		<key>number</key>
 		<dict>
 			<key>captures</key>
 			<dict>
@@ -194,37 +232,208 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?i)\b([0-9]+(t|ms)?)\b</string>
+			<string>\b([0-9]+)\b</string>
 		</dict>
-		<key>string</key>
+		<key>operators</key>
 		<dict>
-			<key>begin</key>
-			<string>("|')</string>
-			<key>end</key>
-			<string>("|')</string>
-			<key>name</key>
-			<string>string.quoted.macro</string>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>#mod-variable</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#user-variable-use</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#illegal-variable-use</string>
+					<key>match</key>
+					<string>!(?!=)|&amp;&amp;|\|\|</string>
+					<key>name</key>
+					<string>keyword.operator.logical.macro</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?i)(&amp;[a-z0-9])(?&lt;!%)</string>
+					<string>=(?!=)</string>
 					<key>name</key>
-					<string>markup.heading.macro</string>
+					<string>keyword.operator.assignment.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>&lt;=|&gt;=|&lt;|&gt;</string>
+					<key>name</key>
+					<string>keyword.operator.relational.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>==|!=</string>
+					<key>name</key>
+					<string>keyword.operator.comparison.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>/|\*|\+|-|%(?![@&amp;#]|[A-Z]+%)</string>
+					<key>name</key>
+					<string>keyword.operator.arithmetic.macro</string>
 				</dict>
 			</array>
+		</dict>
+		<key>punctuation</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>;</string>
+					<key>name</key>
+					<string>punctuation.terminator.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>,</string>
+					<key>name</key>
+					<string>meta.delimiter.comma.macro</string>
+				</dict>
+			</array>
+		</dict>
+		<key>round-brackets</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\(</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.round.begin.macro</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.round.end.macro</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.group.braces.round.macro</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#expressions</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>script</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\}\$\$</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>markup.raw.block.begin.macro</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>text.macro</string>
+					<key>end</key>
+					<string>\$\$\{</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>markup.raw.block.end.macro</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\$\$\{|\}\$\$</string>
+					<key>name</key>
+					<string>markup.raw.block.macro</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?i)\$\$(\?|\d|[a-z]{1,2}|\w+\:\w+|\[\w+\]|&lt;.+?\.txt&gt;)</string>
+					<key>name</key>
+					<string>variable.function.macro</string>
+				</dict>
+			</array>
+		</dict>
+		<key>string</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>("|')</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.macro</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>string.quoted.macro</string>
+					<key>end</key>
+					<string>(\1)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.macro</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#script</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#mod-variable</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#user-variable-usage</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#illegal-variable-usage</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>(?i)(\&amp;[a-z\d])</string>
+							<key>name</key>
+							<string>markup.heading.macro</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>time</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.macro</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?i)\b([0-9]+(?:t|ms)?)\b</string>
 		</dict>
 		<key>user-variable</key>
 		<dict>
@@ -237,14 +446,14 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(@|@?(?:&amp;|#))[\w]+</string>
+			<string>(@|@?(?:[&amp;#]))[\w]+</string>
 			<key>name</key>
 			<string>variable.other.macro</string>
 		</dict>
-		<key>user-variable-use</key>
+		<key>user-variable-usage</key>
 		<dict>
 			<key>match</key>
-			<string>%(@|@?(?:&amp;|#))[\w]+%</string>
+			<string>%(@|@?(?:[&amp;#]))[\w]+%</string>
 			<key>name</key>
 			<string>storage.type.macro</string>
 		</dict>
